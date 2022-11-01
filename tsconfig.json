@@ -1,0 +1,64 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": [
+        "src/shared/components/*"
+      ],
+      "@/store/*": [
+        "src/shared/store/*"
+      ],
+      "@/constants/*": [
+        "src/shared/constants/*"
+      ],
+      "@/types/*": [
+        "src/shared/types/*"
+      ],
+      "@/types": [
+        "src/shared/types"
+      ],
+      "@/config": [
+        "src/shared/config"
+      ],
+      "@/styles": [
+        "src/shared/styles"
+      ],
+      "@/modules/*": [
+        "src/modules/*"
+      ],
+      "@/services/*": [
+        "src/services/*"
+      ],
+      "@/hooks/*": [
+        "src/shared/hooks/*"
+      ]
+    },
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/pages/profile/[username]"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

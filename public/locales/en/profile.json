@@ -1,0 +1,13 @@
+{
+  "sellItem": "Sell Item",
+  "followers": "Followers",
+  "following": "Following",
+  "items": "{{items}} items",
+  "unfollow": "Unfollow",
+  "follow": "Follow",
+  "name": "Name",
+  "description": "Description",
+  "changeProfilePhoto": "Change profile photo",
+  "description.helper": "Tell about yourself. This is the place where you can tell about yourself",
+  "name.helper": "Your name"
+}

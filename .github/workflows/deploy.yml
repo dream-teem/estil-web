@@ -1,0 +1,60 @@
+name: CI/CD Moodle Telegram app
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+jobs:
+  Deploy:
+    # needs: build
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: 'Create env file'
+        env:
+          APP_ENV: ${{ secrets.APP_ENV }}
+        run: |
+          touch .env
+          echo ${{ secrets.APP_ENV }} >> .env
+          cat .env
+
+      - name: Copy folder content recursively to remote
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: ./
+          remote: /home/ubuntu/estil-web/
+          host: ${{secrets.AWS_SERVER_HOSTNAME}}
+          port: ${{secrets.AWS_SERVER_PORT}}
+          privateKey: ${{secrets.AWS_PRIVATE_KEY}}
+          username: ${{secrets.AWS_SERVER_USERNAME}}
+
+      - name: deploy web
+        uses: appleboy/ssh-action@master
+
+        with:
+          host: ${{secrets.AWS_SERVER_HOSTNAME}}
+          port: ${{secrets.AWS_SERVER_PORT}}
+          key: ${{secrets.AWS_PRIVATE_KEY}}
+          username: ${{secrets.AWS_SERVER_USERNAME}}
+          script_stop: true
+          script: |
+            cd /home/ubuntu/estil-web
+            docker build -t estil/web .
+
+      - name: restart web
+        uses: appleboy/ssh-action@master
+
+        with:
+          host: ${{secrets.AWS_SERVER_HOSTNAME}}
+          port: ${{secrets.AWS_SERVER_PORT}}
+          key: ${{secrets.AWS_PRIVATE_KEY}}
+          username: ${{secrets.AWS_SERVER_USERNAME}}
+          script_stop: true
+          script: docker run -dp 3000:3000 --name estil-web estil/web

@@ -1,0 +1,5 @@
+{
+  "required": "'{{field}}' is a required field",
+  "minLength": "'{{field}}' has to be min length of {{length}}",
+  "maxLength": "'{{field}}' has to be max length of {{length}}"
+}
