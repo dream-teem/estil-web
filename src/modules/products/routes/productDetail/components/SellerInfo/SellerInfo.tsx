@@ -2,7 +2,7 @@ import Rating from '@/components/Rating/Rating'
 import { Text } from '@/components/Typography/Text'
 import { Title } from '@/components/Typography/Title'
 import { GetProductResponse } from '@/services/products/types'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import Link from 'next/link'
 import React from 'react'
 import * as Styled from './styles'

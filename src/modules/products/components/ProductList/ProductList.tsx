@@ -1,5 +1,5 @@
 import { Title } from '@/components/Typography/Title'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import { useRouter } from 'next/router'
 import React from 'react'
 import { ProductPreview } from '../../types'

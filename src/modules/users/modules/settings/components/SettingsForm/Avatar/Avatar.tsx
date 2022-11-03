@@ -5,7 +5,7 @@ import { Thumbnails } from '@/modules/users/types'
 import productApi from '@/services/products/api'
 import { GetUserResponse } from '@/services/users/types'
 import { useTranslation } from 'next-i18next'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import React from 'react'
 import * as Styled from './styles'
 

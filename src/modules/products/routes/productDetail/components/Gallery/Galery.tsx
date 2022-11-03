@@ -1,7 +1,7 @@
 import { GetProductResponse } from '@/services/products/types'
 import { ChevronBack } from '@styled-icons/ionicons-outline/ChevronBack'
 import { ChevronForward } from '@styled-icons/ionicons-outline/ChevronForward'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import React, { useState } from 'react'
 import * as Styled from './styles'
 

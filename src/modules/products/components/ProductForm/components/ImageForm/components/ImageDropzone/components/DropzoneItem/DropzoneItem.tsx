@@ -1,6 +1,6 @@
 import { ProductImage } from '@/modules/products/types'
 import { Close } from '@styled-icons/ionicons-outline/Close'
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import React from 'react'
 import * as Styled from './styles'
 
@@ -18,9 +18,7 @@ function DropzoneItem({ image, onRemove }: Props) {
       <Image
         alt="product-image"
         src={image.thumbnails[310]}
-        style={{
-          objectFit: 'cover'
-        }}
+        objectFit="cover"
       />
     </Styled.DropzoneImageWrapper>
   )
