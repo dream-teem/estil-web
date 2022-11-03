@@ -4,7 +4,7 @@ export type UserProfile = Pick<
   User,
   'username' | 'name' | 'description' | 'avatar' | 'id'
 > & {
-  follorwers: number
+  followers: number
   following: number
   rating: {
     count: number

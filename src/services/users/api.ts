@@ -33,13 +33,13 @@ const usersApi = createApi({
     }),
     getUser: builder.query<GetUserProfileResponse, GetUserProfileRequest>({
       query: ({ username }) => ({
-        url: `users/${username}`,
+        url: `user/${username}/profile`,
         method: 'GET'
       })
     }),
     getProfile: builder.query<GetUserResponse, null>({
       query: () => ({
-        url: `users/profile`,
+        url: `user/profile`,
         method: 'GET'
       }),
       providesTags: arg => (arg ? [{ type: 'User', id: arg?.id }] : [])
@@ -80,9 +80,9 @@ const usersApi = createApi({
         const patchResult = dispatch(
           usersApi.util.updateQueryData('getUser', { username }, user => {
             if (user.isFollowed) {
-              user.follorwers -= 1
+              user.followers -= 1
             } else {
-              user.follorwers += 1
+              user.followers += 1
             }
             user.isFollowed = !user.isFollowed
           })

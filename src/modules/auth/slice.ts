@@ -1,6 +1,6 @@
 import authApi from '@/services/auth/api'
 import storage from '@/store/storage'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import { AuthState } from './types'
 
@@ -13,9 +13,6 @@ export const authSlice = createSlice({
     logoutUser(state) {
       state.isLoggedIn = false
       delete state.user
-    },
-    saveToken(state, { payload }: PayloadAction<string>) {
-      state.accessToken = payload || null
     }
   },
   extraReducers: builder => {
@@ -49,4 +46,4 @@ export const authReducer = persistReducer(
   authSlice.reducer
 )
 
-export const { logoutUser, saveToken } = authSlice.actions
+export const { logoutUser } = authSlice.actions

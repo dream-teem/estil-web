@@ -2,7 +2,6 @@ import Head from '@/components/Head/Head'
 import Layout from '@/components/Layout/Layout'
 import FillContainerLoader from '@/components/Loader/FillContainerLoader/FillContainerLoader'
 import { config } from '@/config'
-import { saveToken } from '@/modules/auth/slice'
 import Profile from '@/modules/users/modules/profile/Profile'
 import usersApi from '@/services/users/api'
 import { wrapper } from '@/store/store'
@@ -42,8 +41,7 @@ const ProfilePage: AppNextPage = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   store =>
-    async ({ locale, params, req }) => {
-      store.dispatch(saveToken(req.cookies.access as string))
+    async ({ locale, params }) => {
       const username = params?.username
 
       if (typeof username === 'string') {

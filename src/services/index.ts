@@ -1,6 +1,5 @@
 import { config } from '@/config'
 import { authSlice } from '@/modules/auth/slice'
-import { AppState } from '@/store/store'
 import {
   BaseQueryFn,
   FetchArgs,
@@ -9,19 +8,19 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { Mutex } from 'async-mutex'
 import queryString from 'qs'
+import { isRequestContext } from './utils'
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: config.api.main.baseUrl,
   credentials: 'include',
   paramsSerializer: params => queryString.stringify(params),
-  prepareHeaders: (headers, { getState }) => {
-    const {
-      authSlice: { accessToken }
-    } = getState() as AppState
-
-    if (accessToken) {
-      headers.set('authorization', `${accessToken}`)
+  prepareHeaders: (headers, { extra: ctx }) => {
+    if (isRequestContext(ctx)) {
+      Object.entries(ctx.req.headers).forEach(([k, v]) =>
+        headers.set(k, <string>v)
+      )
     }
+
     return headers
   }
 })

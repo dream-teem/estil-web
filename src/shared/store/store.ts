@@ -15,7 +15,7 @@ import {
   Reducer,
   ThunkAction
 } from '@reduxjs/toolkit'
-import { createWrapper } from 'next-redux-wrapper'
+import { Context, createWrapper } from 'next-redux-wrapper'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import {
   FLUSH,
@@ -27,6 +27,7 @@ import {
   REGISTER,
   REHYDRATE
 } from 'redux-persist'
+import { GetDefaultMiddlewareOptions } from './types'
 
 const reducers = {
   [authSlice.name]: authReducer,
@@ -44,14 +45,17 @@ export const rootReducer: Reducer<AppState> = (state, action) => {
   return combinedReducer(state, action)
 }
 
-export function makeConfiguredStore() {
+export function makeConfiguredStore(ctx?: Context) {
   return configureStore({
     reducer: rootReducer,
     devTools: process.env.NODE_ENV !== 'production',
     middleware: getDefaultMiddleware =>
-      getDefaultMiddleware({
+      getDefaultMiddleware<GetDefaultMiddlewareOptions>({
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+        },
+        thunk: {
+          extraArgument: ctx
         }
       }).concat([
         productApi.middleware,
@@ -62,10 +66,10 @@ export function makeConfiguredStore() {
   })
 }
 
-export const makeStore = () => {
+export const makeStore = (ctx: Context) => {
   const isServer = typeof window === 'undefined'
   if (isServer) {
-    return makeConfiguredStore()
+    return makeConfiguredStore(ctx)
   } else {
     const store: ReturnType<typeof makeConfiguredStore> & {
       __persistor?: Persistor

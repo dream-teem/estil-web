@@ -1,9 +1,9 @@
 export type AuthState = {
   isLoggedIn?: boolean
   user?: AuthUser
-  accessToken?: string | null
 }
 
 export type AuthUser = {
+  id: number
   username: string
 }

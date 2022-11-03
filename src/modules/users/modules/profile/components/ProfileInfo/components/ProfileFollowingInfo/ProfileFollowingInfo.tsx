@@ -43,7 +43,7 @@ function ProfileFollowingInfo({ user }: Props) {
       <Styled.FollowingInfoItem
         onClick={() => router.push(`/profile/${user.username}/followers`)}
       >
-        <Title>{user.follorwers}</Title>
+        <Title>{user.followers}</Title>
         <Text>{t('followers')}</Text>
       </Styled.FollowingInfoItem>
       <Styled.FollowingInfoItem

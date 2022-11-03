@@ -6,7 +6,7 @@ import * as Styled from './styles'
 
 type Props = {
   label?: string
-  error?: string
+  error?: string | boolean
   value?: string
   helper?: string
   registration?: Partial<UseFormRegisterReturn>

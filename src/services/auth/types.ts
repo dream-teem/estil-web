@@ -32,3 +32,7 @@ export type ConfirmVerificationRequest = {
 export type ConfirmVerificationResponse = {
   isVerified: boolean
 }
+
+export type CheckUsernameResponse = {
+  exists: boolean
+}

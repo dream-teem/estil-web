@@ -2,7 +2,6 @@ import Head from '@/components/Head/Head'
 import Layout from '@/components/Layout/Layout'
 import FillContainerLoader from '@/components/Loader/FillContainerLoader/FillContainerLoader'
 import { config } from '@/config'
-import { saveToken } from '@/modules/auth/slice'
 import UserSettings from '@/modules/users/modules/settings/Settings'
 import usersApi from '@/services/users/api'
 import { wrapper } from '@/store/store'
@@ -40,9 +39,7 @@ const ProfilePage: AppNextPage = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   store =>
-    async ({ locale, req }) => {
-      store.dispatch(saveToken(req.cookies.access as string))
-
+    async ({ locale }) => {
       store.dispatch(usersApi.endpoints.getProfile.initiate(null))
 
       await Promise.all(usersApi.util.getRunningOperationPromises())

@@ -2,7 +2,6 @@ import Head from '@/components/Head/Head'
 import Layout from '@/components/Layout/Layout'
 import FillContainerLoader from '@/components/Loader/FillContainerLoader/FillContainerLoader'
 import { config } from '@/config'
-import { saveToken } from '@/modules/auth/slice'
 import ProductDetail from '@/modules/products/routes/productDetail/ProductDetail'
 import productApi from '@/services/products/api'
 import { wrapper } from '@/store/store'
@@ -40,9 +39,7 @@ const ProductDetailPage: AppNextPage = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   store =>
-    async ({ locale, params, req }) => {
-      store.dispatch(saveToken(req.cookies.access as string))
-
+    async ({ locale, params }) => {
       const slug = params?.slug
       if (typeof slug === 'string') {
         store.dispatch(

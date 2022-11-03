@@ -18,8 +18,9 @@ function DropzoneItem({ image, onRemove }: Props) {
       <Image
         alt="product-image"
         src={image.thumbnails[310]}
-        layout="fill"
-        objectFit="cover"
+        style={{
+          objectFit: 'cover'
+        }}
       />
     </Styled.DropzoneImageWrapper>
   )

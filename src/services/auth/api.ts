@@ -1,7 +1,7 @@
-import { config } from '@/config'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '..'
 import {
+  CheckUsernameResponse,
   ConfirmVerificationRequest,
   ConfirmVerificationResponse,
   LoginRequest,
@@ -27,14 +27,14 @@ const authApi = createApi({
     }),
     register: builder.mutation<RegisterResponse, RegisterRequest>({
       query: credentials => ({
-        url: 'auth/register',
+        url: 'auth/signup',
         method: 'POST',
         body: credentials
       })
     }),
-    checkUsername: builder.query<null, string>({
+    checkUsername: builder.query<CheckUsernameResponse, string>({
       query: username => ({
-        url: `auth/check-username/${username}`,
+        url: `user/check-username/${username}`,
         method: 'GET'
       })
     }),
@@ -49,7 +49,7 @@ const authApi = createApi({
       SendVerificationRequest
     >({
       query: data => ({
-        url: `auth/send-verification`,
+        url: `auth/verification/send`,
         method: 'post',
         body: data
       })
@@ -59,7 +59,7 @@ const authApi = createApi({
       ConfirmVerificationRequest
     >({
       query: data => ({
-        url: `${config.api.sms.baseUrl}confirm`,
+        url: `auth/verification/confirm`,
         method: 'post',
         body: data
       })

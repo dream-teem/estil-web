@@ -79,7 +79,7 @@ function UserDetailsForm({ onNext }: Props) {
         onBlur={val => trigger(val)}
         error={
           errors?.username?.message ||
-          (result.error && 'Имя пользователя занят, выберите другой')
+          (result.data?.exists && 'Имя пользователя занят, выберите другой')
         }
       />
       <Spacer />
