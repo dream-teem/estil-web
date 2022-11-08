@@ -2,7 +2,7 @@ import Button from '@/components/Elements/Button/Button'
 import { Spacer } from '@/components/Elements/Spacer/Spacer'
 import { useAuth } from '@/hooks/useAuth'
 import {
-  CategoryWithoutChildren,
+  CategoryWithoutSubCategories,
   Product,
   ProductColor
 } from '@/modules/products/types'
@@ -38,7 +38,7 @@ export interface ProductFormProps {
 export type FieldValues = {
   basicInfo: Pick<Product, 'description'>
   productInfo: Pick<Product, 'brand' | 'condition' | 'size' | 'price'> & {
-    category: CategoryWithoutChildren // this is needed to avoid circular dependcy https://github.com/react-hook-form/react-hook-form/discussions/7764
+    category: CategoryWithoutSubCategories // this is needed to avoid circular dependcy https://github.com/react-hook-form/react-hook-form/discussions/7764
     colors: ProductColor[]
   }
   location: {

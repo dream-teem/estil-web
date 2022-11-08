@@ -2,6 +2,7 @@ import Head from '@/components/Head/Head'
 import Layout from '@/components/Layout/Layout'
 import FillContainerLoader from '@/components/Loader/FillContainerLoader/FillContainerLoader'
 import { config } from '@/config'
+import { useAuth } from '@/hooks/useAuth'
 import FavoriteProducts from '@/modules/products/routes/favoriteProducts/FavoriteProducts'
 import productApi from '@/services/products/api'
 import { AppNextPage } from '@/types'
@@ -12,11 +13,13 @@ import Error from 'next/error'
 
 const FavoriteProductsPage: AppNextPage = () => {
   const { t } = useTranslation('product')
-  const {
-    data: products,
-    isLoading,
-    error
-  } = productApi.endpoints.getFavorite.useQuery(null)
+  const { user } = useAuth()
+  // todo: fix pagination
+  const { data, isLoading, error } =
+    productApi.endpoints.getShopProducts.useQuery(
+      { userId: user!.id, isLiked: true, limit: 100, offset: 0 },
+      { skip: !user }
+    )
 
   if (error) return <Error statusCode={500} />
 
@@ -29,7 +32,7 @@ const FavoriteProductsPage: AppNextPage = () => {
           title={t('favoriteItems')}
           url={`${config.seo.meta.og.url}/products/favorite`}
         />
-        {products && <FavoriteProducts products={products} />}
+        {data?.data && <FavoriteProducts products={data?.data} />}
       </Layout.Section>
     </Layout.Container>
   )

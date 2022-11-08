@@ -96,7 +96,7 @@ export const ProductInfoForm = () => {
         name="productInfo.size"
         render={({ field: { onChange, value } }) => (
           <>
-            {category && category.sizeGroupId && (
+            {category && !isEmpty(category.sizeGroups) && (
               <>
                 <Styled.FieldRow>
                   <Text>{t('product:size')}</Text>

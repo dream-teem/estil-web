@@ -15,7 +15,7 @@ export const useProductImages = (
   productImages: ProductImage[],
   onChange?: (images: ProductImage[]) => void
 ) => {
-  const [uploadImage] = productApi.endpoints.saveImage.useMutation()
+  const [uploadImage] = productApi.endpoints.uploadImage.useMutation()
 
   const initialImages = useMemo(() => {
     const MAX_IMAGES = 4
@@ -55,7 +55,9 @@ export const useProductImages = (
   }
 
   const saveImages = async (files: File[]) => {
-    const emptyImages = images.filter(({ image }) => image === null)
+    const emptyImages = images.filter(
+      ({ image, isLoading }) => image === null && !isLoading
+    )
     if (emptyImages.length < files.length) {
       console.log(
         'Validation error: maximum files exceeded, uploading only part'

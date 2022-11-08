@@ -2,8 +2,9 @@ import { Spacer } from '@/components/Elements/Spacer/Spacer'
 import Rating from '@/components/Rating/Rating'
 import { Text } from '@/components/Typography/Text'
 import { Title } from '@/components/Typography/Title'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import React from 'react'
+import { s3ImageLoader } from 'src/shared/helpers/media'
 import { UserProfile } from '../../../../types'
 import * as Styled from './styles'
 
@@ -13,8 +14,17 @@ type Props = {
 
 function ProfileBasicInfo({ user }: Props) {
   const Avatar = () => {
-    const url = user?.avatar?.[150] || '/assets/images/profile-placeholder.jpeg'
-    return <Image alt="profile-image" layout="fill" src={url} />
+    const url =
+      user?.picture?.thumbnails?.[150] ||
+      '/assets/images/profile-placeholder.jpeg'
+    return (
+      <Image
+        loader={s3ImageLoader}
+        alt="profile-image"
+        layout="fill"
+        src={url}
+      />
+    )
   }
 
   return (

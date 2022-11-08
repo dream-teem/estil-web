@@ -1,3 +1,4 @@
+import { useQueryParams } from '@/hooks/useQueryParams'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import isNaN from 'lodash/isNaN'
@@ -19,6 +20,7 @@ export const useProductFilter = () => {
   const router = useRouter()
   const { categoryMap } = useCategories()
 
+  const queryParams = useQueryParams()
   // for category page
   const slugs = <string[]>get(router, 'query.slug')
 
@@ -64,35 +66,32 @@ export const useProductFilter = () => {
       return sort as ProductFilter['sort']
   }
 
-  const filter: ProductFilter = useMemo(
-    () => ({
-      categories: category
-        ? [category.id]
-        : parseArray(router.query.categories),
-      brands: parseArray(router.query.brands),
-      sizes: parseArray(router.query.sizes),
-      conditions: parseArray(router.query.conditions),
-      colors: parseArray(router.query.colors),
-      search: parseString(router.query.search)?.trim(),
-      sort: getSort(parseString(router.query.sort)),
-      city: parseIntQuery(router.query.city),
-      minPrice: parseIntQuery(router.query.minPrice),
-      maxPrice: parseIntQuery(router.query.maxPrice)
-    }),
-    [
-      router.query.categories,
-      router.query.brands,
-      router.query.sizes,
-      router.query.conditions,
-      router.query.colors,
-      router.query.search,
-      router.query.sort,
-      router.query.city,
-      router.query.minPrice,
-      router.query.maxPrice,
-      category
-    ]
-  )
+  const filter: ProductFilter = useMemo(() => {
+    return {
+      categories: category ? [category.id] : parseArray(queryParams.categories),
+      brands: parseArray(queryParams.brands),
+      sizes: parseArray(queryParams.sizes),
+      conditions: parseArray(queryParams.conditions),
+      colors: parseArray(queryParams.colors),
+      search: parseString(queryParams.search)?.trim(),
+      sort: getSort(parseString(queryParams.sort)),
+      city: parseIntQuery(queryParams.city),
+      minPrice: parseIntQuery(queryParams.minPrice),
+      maxPrice: parseIntQuery(queryParams.maxPrice)
+    }
+  }, [
+    queryParams.categories,
+    queryParams.brands,
+    queryParams.sizes,
+    queryParams.conditions,
+    queryParams.colors,
+    queryParams.search,
+    queryParams.sort,
+    queryParams.city,
+    queryParams.minPrice,
+    queryParams.maxPrice,
+    category
+  ])
   console.log(router.query.categories)
   const onCityChange = (city: number) => {
     if (filter.city === city) delete filter.city
@@ -204,6 +203,7 @@ export const useProductFilter = () => {
   }
   return {
     filter,
+    isFilterReady: router.isReady,
     onIdToggle,
     resetAll,
     resetFilter,

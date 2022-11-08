@@ -1,12 +1,12 @@
 import Dropdown from '@/components/Dropdown/Dropdown'
 import { useCategories } from '@/modules/products/hooks/useCategories'
 import React from 'react'
-import { CategoryWithoutChildren, ProductSize } from '../../../types'
+import { CategoryWithoutSubCategories, ProductSize } from '../../../types'
 import { SizeGroupCategory } from './SizeGroupCategoryDropdown'
 import * as Styled from './styles'
 
 type Props = {
-  category?: CategoryWithoutChildren | null
+  category?: CategoryWithoutSubCategories | null
   onChange?: (size: ProductSize) => void
   active: number[]
 }

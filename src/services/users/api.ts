@@ -1,4 +1,4 @@
-import { UserPreview } from '@/modules/users/types'
+import { UserPicture, UserPreview } from '@/modules/users/types'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
 import { baseQueryWithReauth } from '..'
@@ -60,13 +60,23 @@ const usersApi = createApi({
     }),
     updateProfile: builder.mutation<{}, UpdateUserProfileRequest>({
       query: data => ({
-        url: `users/profile`,
+        url: `user`,
         method: 'PUT',
         body: data
       }),
       invalidatesTags: (res_, fetch_, args) => [{ type: 'Users', id: args.id }]
     }),
-
+    uploadImage: builder.mutation<UserPicture, File>({
+      query: file => {
+        const body = new FormData()
+        body.append('file', file)
+        return {
+          url: 'user/images/uploadImage',
+          method: 'POST',
+          body
+        }
+      }
+    }),
     toggleFollow: builder.mutation<ToggleFollowResponse, ToggleFollowRequest>({
       query: user => ({
         url: 'followings/toggle',

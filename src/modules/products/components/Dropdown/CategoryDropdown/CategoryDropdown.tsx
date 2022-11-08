@@ -1,7 +1,6 @@
 import Dropdown from '@/components/Dropdown/Dropdown'
 import { Text } from '@/components/Typography/Text'
 import { useCategories } from '@/modules/products/hooks/useCategories'
-import { useProductFilterAggregate } from '@/modules/products/hooks/useProductFilterAggregate'
 import { ProductCategory } from '@/modules/products/types'
 import { ArrowBack } from '@styled-icons/ionicons-outline/ArrowBack'
 import { Checkmark } from '@styled-icons/ionicons-outline/Checkmark'
@@ -20,14 +19,13 @@ type Props = {
 function CategoryDropdown({ onChange, active, parentShown }: Props) {
   const { t } = useTranslation('common')
   const { categories, categoryMap } = useCategories()
-  const { filterAggregates } = useProductFilterAggregate()
-  console.log(filterAggregates)
+
   const [parentCategory, setParentCategory] = useState<ProductCategory | null>(
     null
   )
 
   const handleClick = useCallback((category: ProductCategory) => {
-    if (!isEmpty(category.children)) {
+    if (!isEmpty(category.subCategories)) {
       setParentCategory(category)
     } else {
       onChange?.(category)
@@ -60,7 +58,7 @@ function CategoryDropdown({ onChange, active, parentShown }: Props) {
   }
 
   const DropdownIcon = ({ category }: Record<'category', ProductCategory>) => {
-    if (!isEmpty(category.children)) return <ChevronForward width={22} />
+    if (!isEmpty(category.subCategories)) return <ChevronForward width={22} />
     if (active.includes(category.id)) return <Checkmark width={22} />
     return null
   }
@@ -72,9 +70,9 @@ function CategoryDropdown({ onChange, active, parentShown }: Props) {
         categoryList.push({
           ...parentCategory,
           name: t('category.all'),
-          children: []
+          subCategories: []
         })
-      return categoryList.concat(categoryMap[parentCategory.id].children)
+      return categoryList.concat(parentCategory.subCategories)
     }
     return categories
   }, [parentCategory, categories])

@@ -1,8 +1,9 @@
 import { GetProductResponse } from '@/services/products/types'
 import { ChevronBack } from '@styled-icons/ionicons-outline/ChevronBack'
 import { ChevronForward } from '@styled-icons/ionicons-outline/ChevronForward'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import React, { useState } from 'react'
+import { s3ImageLoader } from 'src/shared/helpers/media'
 import * as Styled from './styles'
 
 type Props = {
@@ -29,6 +30,7 @@ function Gallery({ product: { images } }: Props) {
           {images.map(image => (
             <Styled.SliderItem key={image.id}>
               <Image
+                loader={s3ImageLoader}
                 alt="product-image"
                 layout="fill"
                 src={image.thumbnails[1280]}
@@ -48,6 +50,7 @@ function Gallery({ product: { images } }: Props) {
         {images.map((image, ind) => (
           <Styled.SliderImage key={image.id} onClick={() => handleSlide(ind)}>
             <Image
+              loader={s3ImageLoader}
               alt="product-image"
               layout="fill"
               src={image.thumbnails[1280]}

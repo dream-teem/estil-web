@@ -33,6 +33,7 @@ export const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+  const ctx = api.extra
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock()
   let result = await baseQuery(args, api, extraOptions)
@@ -42,12 +43,22 @@ export const baseQueryWithReauth: BaseQueryFn<
       const release = await mutex.acquire()
       try {
         const refreshResult = await baseQuery(
-          'auth/refresh-token',
+          { url: 'auth/jwt/refresh', method: 'POST' },
           api,
           extraOptions
         )
-        if (refreshResult.data) {
+        if (refreshResult.meta && refreshResult.meta.response?.status !== 401) {
           result = await baseQuery(args, api, extraOptions)
+
+          const resHeaders = refreshResult.meta?.response?.headers
+          // if context has req and res and refresh token response has set-cookie
+          if (isRequestContext(ctx) && resHeaders) {
+            // set new auth cookie from refresh token request to browser response
+            const setCookie = resHeaders.get('set-cookie')
+            if (setCookie) {
+              ctx.res.setHeader('set-cookie', setCookie)
+            }
+          }
         } else {
           api.dispatch(authSlice.actions.logoutUser())
         }

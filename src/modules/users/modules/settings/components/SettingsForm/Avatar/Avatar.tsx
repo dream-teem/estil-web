@@ -1,31 +1,32 @@
 import { Text } from '@/components/Typography/Text'
 import { Title } from '@/components/Typography/Title'
 import { useDropzone } from '@/modules/products/components/ProductForm/components/ImageForm/components/ImageDropzone/hooks/useDropzone'
-import { Thumbnails } from '@/modules/users/types'
-import productApi from '@/services/products/api'
+import { UserPicture } from '@/modules/users/types'
+import usersApi from '@/services/users/api'
 import { GetUserResponse } from '@/services/users/types'
 import { useTranslation } from 'next-i18next'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import React from 'react'
+import { s3ImageLoader } from 'src/shared/helpers/media'
 import * as Styled from './styles'
 
 type Props = {
-  avatar?: Thumbnails | null
+  avatar?: UserPicture | null
   user: GetUserResponse
-  onChange: (image: Thumbnails) => void
+  onChange: (image: UserPicture) => void
 }
 
 function Avatar({ avatar, onChange, user }: Props) {
   const { t } = useTranslation('profile')
 
   const [uploadImage, { isLoading }] =
-    productApi.endpoints.saveImage.useMutation()
+    usersApi.endpoints.uploadImage.useMutation()
 
   const saveImage = async (files: File[]) => {
     const file = files[0]
     if (file) {
       const image = await uploadImage(file).unwrap()
-      onChange(image.thumbnails)
+      onChange(image)
     }
   }
 
@@ -38,8 +39,13 @@ function Avatar({ avatar, onChange, user }: Props) {
     <Styled.AvatarFieldWrapper>
       <Styled.ImageWrapper>
         <Image
+          loader={s3ImageLoader}
           alt="avatar-image"
-          src={avatar ? avatar[428] : '/assets/images/profile-placeholder.jpeg'}
+          src={
+            avatar
+              ? avatar.thumbnails[428]
+              : '/assets/images/profile-placeholder.jpeg'
+          }
           layout="fill"
           objectFit="cover"
         />

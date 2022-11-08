@@ -2,7 +2,7 @@ import { User } from '../../types'
 
 export type UserProfile = Pick<
   User,
-  'username' | 'name' | 'description' | 'avatar' | 'id'
+  'username' | 'name' | 'description' | 'picture' | 'id'
 > & {
   followers: number
   following: number

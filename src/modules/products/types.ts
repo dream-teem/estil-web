@@ -21,6 +21,10 @@ export type Product = BaseEntity & {
   isApproved: boolean
 }
 
+export type ProductVariant = {
+  sizeId: number
+  quantity: number
+}
 export type ProductCondition = BaseEntity & {
   title: string
   description: string
@@ -34,7 +38,7 @@ export type ProductBrand = BaseEntity & {
 }
 export type Thumbnails = Record<'150' | '310' | '428' | '624' | '1280', string>
 
-export type ProductImage = BaseEntity & {
+export type ProductImage = {
   thumbnails: Thumbnails
   original: string
 }
@@ -47,11 +51,14 @@ export type ProductCategory = BaseEntity & {
   slug: string
   order: number
   sizeGroups: number[]
-  children: ProductCategory[]
+  subCategories: ProductCategory[]
   lvl: number
 }
 
-export type CategoryWithoutChildren = Omit<ProductCategory, 'children' | 'lvl'>
+export type CategoryWithoutSubCategories = Omit<
+  ProductCategory,
+  'subCategories' | 'lvl'
+>
 
 export type ProductSize = BaseEntity & {
   title: string
@@ -75,7 +82,7 @@ export type ProductColor = BaseEntity & {
 }
 
 export type ProductPreview = Pick<Product, 'id' | 'slug' | 'price'> & {
-  thumbnails: Thumbnails
+  preview: ProductImage
 }
 
 export type ProductFilter = {

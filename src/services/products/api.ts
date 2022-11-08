@@ -87,31 +87,37 @@ const productApi = createApi({
     getShopProducts: builder.query<GetProductsResponse, GetShopProductsRequest>(
       {
         query: ({ userId, ...params }) => ({
-          url: `products/${userId}/shop`,
+          url: `user/${userId}/products`,
           method: 'GET',
           params
         }),
         providesTags: data =>
-          data?.products
-            ? data.products.map(p => ({ type: 'ShopProducts', id: p.id }))
+          data?.data
+            ? data.data.map(p => ({ type: 'ShopProducts', id: p.id }))
             : [{ type: 'ShopProducts' }]
       }
     ),
     getProduct: builder.query<GetProductResponse, string>({
       query: slug => ({
-        url: `products/${slug}`,
+        url: `products/details/${slug}`,
         method: 'GET'
       })
     }),
-    categories: builder.query<ProductCategory[], null>({
+    getCategoriesTree: builder.query<ProductCategory[], null>({
       query: () => ({
-        url: 'products/categories',
+        url: 'products/attributes/categories/tree',
+        method: 'GET'
+      })
+    }),
+    getCategoriesById: builder.query<Record<number, ProductCategory>, null>({
+      query: () => ({
+        url: 'products/attributes/categories/byId',
         method: 'GET'
       })
     }),
     sizeGroups: builder.query<Record<string, ProductSizeGroup>, null>({
       query: () => ({
-        url: 'products/attributes/size-groups',
+        url: 'products/attributes/sizeGroups/byId',
         method: 'GET'
       })
     }),
@@ -123,13 +129,13 @@ const productApi = createApi({
     }),
     brands: builder.query<GetBrandsResponse, null>({
       query: () => ({
-        url: 'products/brands',
+        url: 'products/attributes/brands',
         method: 'GET'
       })
     }),
     conditions: builder.query<ProductCondition[], null>({
       query: () => ({
-        url: 'products/conditions',
+        url: 'products/attributes/conditions',
         method: 'GET'
       })
     }),
@@ -154,12 +160,12 @@ const productApi = createApi({
       }),
       providesTags: ['Suggestions']
     }),
-    saveImage: builder.mutation<ProductImage, File>({
+    uploadImage: builder.mutation<ProductImage, File>({
       query: file => {
         const body = new FormData()
-        body.append('image', file)
+        body.append('file', file)
         return {
-          url: 'image/save-image',
+          url: 'products/images/uploadImage',
           method: 'POST',
           body
         }

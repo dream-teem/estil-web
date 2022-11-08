@@ -2,9 +2,10 @@ import Rating from '@/components/Rating/Rating'
 import { Text } from '@/components/Typography/Text'
 import { Title } from '@/components/Typography/Title'
 import { GetProductResponse } from '@/services/products/types'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import React from 'react'
+import { s3ImageLoader } from 'src/shared/helpers/media'
 import * as Styled from './styles'
 
 type Props = {
@@ -21,9 +22,10 @@ function SellerInfo({ seller, variant, rating }: Props) {
         <Image
           alt="user-image"
           layout="fill"
+          loader={s3ImageLoader}
           src={
-            seller.avatar
-              ? seller.avatar[310]
+            seller.picture
+              ? seller.picture.thumbnails[150]
               : '/assets/images/profile-placeholder.jpeg'
           }
         />

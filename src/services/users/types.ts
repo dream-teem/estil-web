@@ -1,6 +1,5 @@
 import { UserProfile } from '@/modules/users/modules/profile/types'
 import { User } from '@/modules/users/types'
-import { City } from '@/types/entities'
 
 export type GetUsersResponse = User[]
 
@@ -16,13 +15,13 @@ export type GetUserProfileRequest = {
 
 export type UpdateUserProfileRequest = Pick<
   User,
-  'id' | 'avatar' | 'name' | 'description' | 'cityId'
+  'id' | 'picture' | 'name' | 'description' | 'cityId'
 >
 
 export type GetUserResponse = Pick<
   User,
   | 'id'
-  | 'avatar'
+  | 'picture'
   | 'name'
   | 'description'
   | 'username'
@@ -32,5 +31,5 @@ export type GetUserResponse = Pick<
   | 'phone'
   | 'username'
 > & {
-  city: City
+  cityId: number
 }

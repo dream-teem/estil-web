@@ -16,11 +16,11 @@ function UserSettings({ user }: Props) {
   const router = useRouter()
   const [update, { isLoading }] = usersApi.endpoints.updateProfile.useMutation()
 
-  const handleSubmit = async ({ city, ...values }: FieldValues) => {
+  const handleSubmit = async ({ cityId, ...values }: FieldValues) => {
     const res = await update({
       ...values,
       id: user.id,
-      cityId: city?.id || null
+      cityId
     })
     if (!('error' in res) && user) router.push(`/profile/${user.username}`)
   }

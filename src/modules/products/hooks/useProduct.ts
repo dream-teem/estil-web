@@ -24,9 +24,12 @@ export const useProduct = () => {
   }: FieldValues): CreateProductRequest => {
     return {
       ...basicInfo,
-      images: images.map(({ id }) => id),
+      images,
       brandId: productInfo.brand?.id || null,
-      sizeId: productInfo.size?.id || null,
+      sizes: productInfo.size?.id
+        ? [{ sizeId: productInfo.size?.id, quantity: 1 }]
+        : [],
+      quantity: 1,
       categoryId: productInfo.category.id,
       conditionId: productInfo.condition.id,
       colors: productInfo.colors?.map(({ id }) => id) || [],

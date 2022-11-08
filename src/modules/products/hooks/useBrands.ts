@@ -3,7 +3,11 @@ import isEmpty from 'lodash/isEmpty'
 import { useMemo, useState } from 'react'
 
 export const useBrands = () => {
-  const { data, isLoading, error } = productApi.endpoints.brands.useQuery(null)
+  const {
+    data: brands = [],
+    isLoading,
+    error
+  } = productApi.endpoints.brands.useQuery(null)
   const [search, setSearch] = useState('')
 
   const searchBrands = (search: string) => {
@@ -11,13 +15,12 @@ export const useBrands = () => {
   }
 
   const filteredBrands = useMemo(() => {
-    const brands = data?.brands || []
     if (isEmpty(search)) return brands
 
     return brands.filter(city =>
       city.name.toLowerCase().startsWith(search.toLowerCase())
     )
-  }, [search, data])
+  }, [search, brands])
 
   return { brands: filteredBrands, isLoading, error, searchBrands, search }
 }

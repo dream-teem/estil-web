@@ -1,13 +1,12 @@
 import CityDropdown from '@/components/CityDropdown/CityDropdown'
+import { useCities } from '@/components/CityDropdown/useCities'
 import Button from '@/components/Elements/Button/Button'
 import { Spacer } from '@/components/Elements/Spacer/Spacer'
 import SelectField from '@/components/Form/components/SelectField/SelectField'
 import Form from '@/components/Form/Form'
 import { Title } from '@/components/Typography/Title'
 import { GetUserResponse } from '@/services/users/types'
-import { City } from '@/types/entities'
 import { yupResolver } from '@hookform/resolvers/yup'
-import isEmpty from 'lodash/isEmpty'
 import pick from 'lodash/pick'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -23,46 +22,44 @@ export interface SettingsFormProps {
 
 export type FieldValues = Pick<
   GetUserResponse,
-  'avatar' | 'name' | 'description'
-> & {
-  city?: City | null
-}
+  'picture' | 'name' | 'description' | 'cityId'
+>
 
 export const SettingsForm = ({ user, onSubmit }: SettingsFormProps) => {
   const { t } = useTranslation(['common', 'profile'])
+  const { getCityById } = useCities()
+
   const schema = yup.object().shape({
-    avatar: yup
+    picture: yup
       .object()
       .shape({
-        150: yup.string().required(),
-        310: yup.string().required(),
-        428: yup.string().required(),
-        624: yup.string().required(),
-        1280: yup.string().required()
+        original: yup.string().required(),
+        thumbnails: yup.object({
+          75: yup.string().required(),
+          150: yup.string().required(),
+          428: yup.string().required()
+        })
       })
+      .optional()
       .nullable(),
-    name: yup.string().nullable(),
-    description: yup.string().nullable(),
-    city: yup
-      .object()
-      .shape({
-        id: yup.number().required('Укажите город')
-      })
-      .nullable()
+    name: yup.string().optional().nullable(),
+    description: yup.string().optional().nullable(),
+    cityId: yup.number().nullable().optional()
   })
 
   const methods = useForm<FieldValues>({
     mode: 'onBlur',
-    defaultValues: pick(user, 'avatar', 'name', 'description', 'city'),
+    defaultValues: pick(user, 'picture', 'name', 'description', 'cityId'),
     resolver: yupResolver(schema)
   })
   const { control, formState, register } = methods
+  console.log(formState.errors)
   return (
     <FormProvider {...methods}>
       <Styled.SettingsForm onSubmit={methods.handleSubmit(onSubmit)}>
         <Controller
           control={control}
-          name="avatar"
+          name="picture"
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <Avatar user={user} avatar={value} onChange={onChange} />
           )}
@@ -93,15 +90,15 @@ export const SettingsForm = ({ user, onSubmit }: SettingsFormProps) => {
         <Spacer variant="s" />
         <Controller
           control={control}
-          name="city"
+          name="cityId"
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <SelectField
-              value={!isEmpty(value) ? value?.name : ''}
+              value={value ? getCityById(value)?.name : ''}
               label={t('common:cities')}
               dropdown={
                 <CityDropdown
-                  active={value ? [value.id] : []}
-                  onChange={onChange}
+                  active={value ? [value] : []}
+                  onChange={city => onChange(city.id)}
                 />
               }
             />

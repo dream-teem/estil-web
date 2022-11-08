@@ -21,7 +21,7 @@ function MenuDropdown({ category }: Props) {
               <Dropdown.Item title={t('category.all')} />
             </LinkWrapper>
           </Link>
-          {category.children.map(c => (
+          {category.subCategories.map(c => (
             <Link key={c.id} href={`/category${c.path}`}>
               <LinkWrapper>
                 <Dropdown.Item key={c.id} title={c.name} />

@@ -48,7 +48,7 @@ function ProductDetails({ product }: Props) {
   const tableRows = [
     {
       title: t('product:size'),
-      value: product.size?.title
+      value: product.variants?.[0]?.title
     },
     {
       title: t('product:brand'),

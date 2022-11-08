@@ -5,11 +5,11 @@ import { flatMap } from '../utils'
 
 export const useCategories = () => {
   const { data: categories = [], isLoading } =
-    productApi.endpoints.categories.useQuery(null)
+    productApi.endpoints.getCategoriesTree.useQuery(null)
 
   const categoryMap = useMemo(
     () =>
-      flatMap(categories, c => c.children).reduce((prev, curr) => {
+      flatMap(categories, c => c.subCategories).reduce((prev, curr) => {
         prev[curr.id] = curr
         return prev
       }, {} as Record<string, ProductCategory>),

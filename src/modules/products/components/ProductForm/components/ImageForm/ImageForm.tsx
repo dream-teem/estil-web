@@ -10,7 +10,8 @@ export const getImageSchema = () =>
     .array()
     .of(
       yup.object({
-        id: yup.number().required()
+        original: yup.string().required(),
+        thumbnails: yup.object({}).required()
       })
     )
     .min(1, 'Выложите минимум  1 фото')
@@ -18,6 +19,7 @@ export const getImageSchema = () =>
 type Props = {
   productImages: ProductImage[]
 }
+
 export const ImageForm = ({ productImages }: Props) => {
   const { control } = useFormContext<Pick<FieldValues, 'images'>>()
 

@@ -1,11 +1,14 @@
 import Dropdown from '@/components/Dropdown/Dropdown'
 import { useSizeGroups } from '@/modules/products/hooks/useSizeGroups'
-import { CategoryWithoutChildren, ProductSize } from '@/modules/products/types'
+import {
+  CategoryWithoutSubCategories,
+  ProductSize
+} from '@/modules/products/types'
 import { Checkmark } from '@styled-icons/ionicons-outline/Checkmark'
 import * as Styled from './styles'
 
 type Props = {
-  category: CategoryWithoutChildren
+  category: CategoryWithoutSubCategories
   active: number[]
   onChange?: (size: ProductSize) => void
 }

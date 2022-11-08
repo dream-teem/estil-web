@@ -15,15 +15,18 @@ export const useProducts = (username?: string) => {
 
   const [products, setProducts] = useState<ProductPreview[]>([])
 
-  const { filter } = useProductFilter()
-  const { data, isLoading, error } = productApi.endpoints.getProducts.useQuery({
-    ...productFilter
-  })
-
+  const { filter, isFilterReady } = useProductFilter()
+  const { data, isLoading, error } = productApi.endpoints.getProducts.useQuery(
+    {
+      ...productFilter
+    },
+    { skip: !isFilterReady }
+  )
+  console.log(isFilterReady)
   useEffect(() => {
-    if (data?.products) {
-      if (productFilter.offset) setProducts([...products, ...data.products])
-      else setProducts(data.products)
+    if (data?.data) {
+      if (productFilter.offset) setProducts([...products, ...data.data])
+      else setProducts(data.data)
     }
   }, [data])
 

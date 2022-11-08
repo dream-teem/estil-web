@@ -15,20 +15,21 @@ function Profile({ user }: Props) {
   const { data, isLoading, error } =
     productApi.endpoints.getShopProducts.useQuery({
       userId: user.id,
-      allItems: true,
+      all: true,
       offset: 0, // TODO: make pagination
       limit: 24
     })
 
   const { t } = useTranslation('product')
+
   return (
     <>
       <ProfileContainer>
         <ProfileInfo user={user} />
         <Spacer />
       </ProfileContainer>
-      {data?.products && <ProductList products={data?.products} />}
-      {!isLoading && !error && data?.products?.length === 0 && (
+      {data?.data && <ProductList products={data.data} />}
+      {!isLoading && !error && data?.data?.length === 0 && (
         <Text>{t('noProduct')}</Text>
       )}
     </>
