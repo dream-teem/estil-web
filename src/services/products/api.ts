@@ -67,7 +67,7 @@ const productApi = createApi({
     }),
     getProducts: builder.query<GetProductsResponse, GetProductsRequest>({
       query: filter => ({
-        url: `${config.api.products.baseUrl}`,
+        url: `search/products`,
         method: 'GET',
         params: filter
       }),

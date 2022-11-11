@@ -22,11 +22,11 @@ export const useProducts = (username?: string) => {
     },
     { skip: !isFilterReady }
   )
-  console.log(isFilterReady)
+
   useEffect(() => {
-    if (data?.data) {
-      if (productFilter.offset) setProducts([...products, ...data.data])
-      else setProducts(data.data)
+    if (data?.products) {
+      if (productFilter.offset) setProducts([...products, ...data.products])
+      else setProducts(data.products)
     }
   }, [data])
 

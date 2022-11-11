@@ -63,7 +63,10 @@ export type GetProductResponse = Pick<
   city: City
 }
 
-export type GetProductsResponse = PaginatedResponse<'data', ProductPreview[]>
+export type GetProductsResponse = PaginatedResponse<
+  'products',
+  ProductPreview[]
+>
 
 export type GetProductsRequest = PaginationArgs & ProductFilter
 
