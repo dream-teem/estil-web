@@ -3,6 +3,9 @@ export const config = {
     main: {
       baseUrl: process.env.NEXT_PUBLIC_MAIN_API_URL
     },
+    socket: {
+      baseUrl: process.env.NEXT_PUBLIC_SOCKET_URL
+    },
     products: {
       baseUrl: process.env.NEXT_PUBLIC_PRODUCTS_API_URL
     },

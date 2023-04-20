@@ -28,8 +28,8 @@ function Profile({ user }: Props) {
         <ProfileInfo user={user} />
         <Spacer />
       </ProfileContainer>
-      {data?.data && <ProductList products={data.data} />}
-      {!isLoading && !error && data?.data?.length === 0 && (
+      {data?.products && <ProductList products={data.products} />}
+      {!isLoading && !error && data?.products?.length === 0 && (
         <Text>{t('noProduct')}</Text>
       )}
     </>

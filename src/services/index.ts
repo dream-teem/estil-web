@@ -1,5 +1,5 @@
 import { config } from '@/config'
-import { authSlice } from '@/modules/auth/slice'
+import { authSlice, setToken } from '@/modules/auth/slice'
 import {
   BaseQueryFn,
   FetchArgs,
@@ -47,8 +47,14 @@ export const baseQueryWithReauth: BaseQueryFn<
           api,
           extraOptions
         )
-        if (refreshResult.meta && refreshResult.meta.response?.status !== 401) {
+        if (refreshResult.meta && refreshResult.meta.response?.status === 201) {
           result = await baseQuery(args, api, extraOptions)
+
+          api.dispatch(
+            setToken(
+              (refreshResult.data as { access_token: string }).access_token
+            )
+          )
 
           const resHeaders = refreshResult.meta?.response?.headers
           // if context has req and res and refresh token response has set-cookie

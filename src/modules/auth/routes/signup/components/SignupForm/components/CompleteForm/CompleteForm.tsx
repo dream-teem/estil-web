@@ -33,7 +33,7 @@ function CompleteForm() {
 
     router.push(`/profile/${response.username}`)
   }
-  console.log(error, 'erorrosjldfjlsdkfj')
+
   return (
     <>
       <Title variant="l">Завершите регистрацию</Title>

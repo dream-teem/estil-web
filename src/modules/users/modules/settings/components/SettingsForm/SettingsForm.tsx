@@ -53,7 +53,7 @@ export const SettingsForm = ({ user, onSubmit }: SettingsFormProps) => {
     resolver: yupResolver(schema)
   })
   const { control, formState, register } = methods
-  console.log(formState.errors)
+
   return (
     <FormProvider {...methods}>
       <Styled.SettingsForm onSubmit={methods.handleSubmit(onSubmit)}>

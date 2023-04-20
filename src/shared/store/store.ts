@@ -1,10 +1,12 @@
 import { modalReducer, modalSlice } from '@/components/Modal/modalSlice'
 import { authReducer, authSlice } from '@/modules/auth/slice'
+import { chatReducer, chatSlice } from '@/modules/chat/slice'
 import {
   alertReducer,
   alertSlice
 } from '@/modules/common/components/Alert/slice'
 import authApi, { AUTH_API_REDUCER_KEY } from '@/services/auth/api'
+import chatApi, { CHAT_API_REDUCER_KEY } from '@/services/chat/api'
 import cityApi, { CITY_API_REDUCER_KEY } from '@/services/cities/api'
 import productApi, { PRODUCT_API_REDUCER_KEY } from '@/services/products/api'
 import usersApi, { USERS_API_REDUCER_KEY } from '@/services/users/api'
@@ -33,7 +35,9 @@ const reducers = {
   [authSlice.name]: authReducer,
   [modalSlice.name]: modalReducer,
   [alertSlice.name]: alertReducer,
+  [chatSlice.name]: chatReducer,
   [CITY_API_REDUCER_KEY]: cityApi.reducer,
+  [CHAT_API_REDUCER_KEY]: chatApi.reducer,
   [AUTH_API_REDUCER_KEY]: authApi.reducer,
   [USERS_API_REDUCER_KEY]: usersApi.reducer,
   [PRODUCT_API_REDUCER_KEY]: productApi.reducer
@@ -61,7 +65,8 @@ export function makeConfiguredStore(ctx?: Context) {
         productApi.middleware,
         usersApi.middleware,
         authApi.middleware,
-        cityApi.middleware
+        cityApi.middleware,
+        chatApi.middleware
       ]) // Add custom middlewares from ./middleware
   })
 }

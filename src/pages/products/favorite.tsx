@@ -17,7 +17,7 @@ const FavoriteProductsPage: AppNextPage = () => {
   // todo: fix pagination
   const { data, isLoading, error } =
     productApi.endpoints.getShopProducts.useQuery(
-      { userId: user!.id, isLiked: true, limit: 100, offset: 0 },
+      { userId: user?.id || 0, isLiked: true, limit: 100, offset: 0 },
       { skip: !user }
     )
 
@@ -32,7 +32,7 @@ const FavoriteProductsPage: AppNextPage = () => {
           title={t('favoriteItems')}
           url={`${config.seo.meta.og.url}/products/favorite`}
         />
-        {data?.data && <FavoriteProducts products={data?.data} />}
+        {data?.products && <FavoriteProducts products={data?.products} />}
       </Layout.Section>
     </Layout.Container>
   )

@@ -8,8 +8,6 @@ import ProductList from './components/ProductList/ProductList'
 import { useProducts } from './hooks/useProducts'
 import * as Styled from './styles'
 
-console.log()
-
 function Products() {
   const { isLoading, error, products, hasMore, loadMore, count } = useProducts()
 

@@ -92,7 +92,7 @@ export const useProductFilter = () => {
     queryParams.maxPrice,
     category
   ])
-  console.log(router.query.categories)
+
   const onCityChange = (city: number) => {
     if (filter.city === city) delete filter.city
     else filter['city'] = city

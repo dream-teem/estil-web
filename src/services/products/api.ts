@@ -92,8 +92,8 @@ const productApi = createApi({
           params
         }),
         providesTags: data =>
-          data?.data
-            ? data.data.map(p => ({ type: 'ShopProducts', id: p.id }))
+          data?.products
+            ? data.products.map(p => ({ type: 'ShopProducts', id: p.id }))
             : [{ type: 'ShopProducts' }]
       }
     ),
@@ -173,11 +173,8 @@ const productApi = createApi({
     }),
     toggleLike: builder.mutation<{}, GetProductResponse>({
       query: ({ id }) => ({
-        url: 'products/likes/toggle',
-        method: 'POST',
-        body: {
-          productId: id
-        }
+        url: `likes/product/${id}`,
+        method: 'PATCH'
       }),
       invalidatesTags: (_, base, { id }) => [{ type: 'LikedProducts' }],
       async onQueryStarted({ slug }, { dispatch, queryFulfilled }) {

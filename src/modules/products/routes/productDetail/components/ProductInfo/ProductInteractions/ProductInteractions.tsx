@@ -6,6 +6,7 @@ import { Heart } from '@styled-icons/ionicons-outline/Heart'
 import { Mail } from '@styled-icons/ionicons-outline/Mail'
 import { Heart as HeartFilled } from '@styled-icons/ionicons-solid/Heart'
 import { Trans, useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useTheme } from 'styled-components'
 import * as Styled from './styles'
@@ -19,8 +20,20 @@ function ProductInteractions({ product }: Props) {
   const [toggleLike] = productApi.endpoints.toggleLike.useMutation()
   const theme = useTheme()
 
+  const router = useRouter()
+
   const handleLikeClick = () => {
     toggleLike(product)
+  }
+
+  const chatClick = () => {
+    router.push({
+      pathname: `/chat/init`,
+      query: {
+        sellerId: product.seller.id,
+        productId: product.id
+      }
+    })
   }
 
   const LikeButton = () => {
@@ -39,7 +52,9 @@ function ProductInteractions({ product }: Props) {
         </AuthWrapper>
       </Styled.IconButtonWrapper>
       <Styled.IconButtonWrapper>
-        <Mail width={28} />
+        <AuthWrapper onClick={chatClick}>
+          <Mail width={28} />
+        </AuthWrapper>
       </Styled.IconButtonWrapper>
       <Styled.LikeTextWrapper>
         <Text>

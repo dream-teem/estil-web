@@ -18,7 +18,11 @@ import SearchBar from './components/SearchBar/SearchBar'
 import { useNavbar } from './hooks/useNavbar'
 import * as Styled from './styles'
 
-function Header() {
+type Props = {
+  desktopHeader?: boolean
+}
+
+function Header({ desktopHeader = true }: Props) {
   const { isLoggedIn, user } = useAuth()
   const router = useRouter()
   const { open, onClose, onOpen } = useNavbar()
@@ -70,7 +74,7 @@ function Header() {
         </Styled.WidgetsWrapper>
       </Styled.HeaderWrapper>
       <MobileNavbar open={open} onClose={onClose} />
-      <DesktopNavbar />
+      {desktopHeader && <DesktopNavbar />}
     </Styled.Header>
   )
 }
