@@ -20,6 +20,8 @@ import {
   GetProductSearchSuggestionsResponse,
   GetProductsRequest,
   GetProductsResponse,
+  GetRecommendedProductsRequest,
+  GetRecommendedProductsResponse,
   GetShopProductsRequest,
   UpdateProductRequest
 } from './types'
@@ -100,6 +102,15 @@ const productApi = createApi({
     getProduct: builder.query<GetProductResponse, string>({
       query: slug => ({
         url: `products/details/${slug}`,
+        method: 'GET'
+      })
+    }),
+    getRecommended: builder.mutation<
+      GetRecommendedProductsResponse,
+      GetRecommendedProductsRequest
+    >({
+      query: () => ({
+        url: `products/recommended`,
         method: 'GET'
       })
     }),

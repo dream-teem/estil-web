@@ -1,3 +1,5 @@
+import Dropdown from '@/components/Dropdown/Dropdown'
+import StarIcon from '@/components/Icon/StarIcon'
 import { Title } from '@/components/Typography/Title'
 import { config } from '@/config'
 import { useOnClickOutside } from '@/hooks/useOnClickOutside'
@@ -23,6 +25,11 @@ function MobileNavbar({ open, onClose }: Props) {
     onClose?.()
     router.push('/category' + c.path)
   }
+
+  const handleOpenRecommendations = () => {
+    router.push('/recommendations')
+  }
+
   return (
     <Styled.MobileNavbarWrapper open={open} ref={ref}>
       <Styled.MobileMenuInner>
@@ -40,6 +47,11 @@ function MobileNavbar({ open, onClose }: Props) {
               onChange={handleClick}
             />
           )}
+          <Dropdown.Item
+            title={'Рекоммендовано для вас'}
+            onClick={handleOpenRecommendations}
+            rightIcon={<StarIcon />}
+          />
         </Styled.MobileNav>
       </Styled.MobileMenuInner>
     </Styled.MobileNavbarWrapper>

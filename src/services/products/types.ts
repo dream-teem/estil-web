@@ -82,3 +82,7 @@ export type GetProductSearchSuggestionsResponse = Record<
   'suggestions',
   string[]
 >
+
+export type GetRecommendedProductsResponse = GetProductResponse[]
+
+export type GetRecommendedProductsRequest = void
