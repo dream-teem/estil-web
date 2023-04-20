@@ -80,7 +80,7 @@ export const ProductForm = ({
       },
       images: product?.images,
       location: {
-        city: product?.city || user?.city
+        city: product?.city
       }
     },
     resolver: yupResolver(schema)

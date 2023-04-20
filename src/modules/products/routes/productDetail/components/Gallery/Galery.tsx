@@ -28,7 +28,7 @@ function Gallery({ product: { images } }: Props) {
       <Styled.SliderWrapper>
         <Styled.Slider slide={slide}>
           {images.map(image => (
-            <Styled.SliderItem key={image.id}>
+            <Styled.SliderItem key={image.original}>
               <Image
                 loader={s3ImageLoader}
                 alt="product-image"
@@ -48,7 +48,10 @@ function Gallery({ product: { images } }: Props) {
 
       <Styled.SliderImagesWrapper slide={slide}>
         {images.map((image, ind) => (
-          <Styled.SliderImage key={image.id} onClick={() => handleSlide(ind)}>
+          <Styled.SliderImage
+            key={image.original}
+            onClick={() => handleSlide(ind)}
+          >
             <Image
               loader={s3ImageLoader}
               alt="product-image"
