@@ -1,4 +1,5 @@
 import { useAuth } from '@/hooks/useAuth'
+import useBreakpoint from '@/hooks/useBreakpoint'
 import { User } from '@/modules/users/types'
 import { useRouter } from 'next/router'
 import React, { useEffect, useMemo, useRef } from 'react'
@@ -26,8 +27,8 @@ export const ChatBox = ({ chatId, user }: Props) => {
   const messageListRef = useRef<any>()
   const router = useRouter()
 
-  const currentChatId = chatId || chats[0]._id
-  const { chat } = useChat(currentChatId)
+  const currentChatId = chatId
+  const { chat } = useChat(currentChatId!)
 
   const setChat = (chatId: string) => {
     router.replace({
@@ -39,11 +40,12 @@ export const ChatBox = ({ chatId, user }: Props) => {
   }
 
   useEffect(() => {
-    if (chatId && chat && connected) {
+    if (currentChatId && chat && connected) {
       const sender = chat.members.find(member => member.userId !== user?.id)
-      if (sender) markChatRead({ chatId: chatId, senderId: sender.userId })
+      if (sender)
+        markChatRead({ chatId: currentChatId, senderId: sender.userId })
     }
-  }, [chatId, connected])
+  }, [currentChatId, connected])
 
   const dataSource = useMemo(() => {
     return chats.map(chat => {
@@ -74,31 +76,40 @@ export const ChatBox = ({ chatId, user }: Props) => {
       container.scrollTop = container.scrollHeight
     }
   }
+
+  const breakpoint = useBreakpoint()
+
+  const isPhone = breakpoint === 'xs' || breakpoint === 'sm'
+  const showChats = !isPhone || !chat
+  const showChat = !isPhone || chat
   return (
     <ChatContainer>
-      <Styled.ChatMessagesContainer>
-        <ChatList
-          id="chat-list"
-          onClick={data => setChat(data.id as string)}
-          lazyLoadingImage=""
-          dataSource={dataSource}
-        />
-      </Styled.ChatMessagesContainer>
-      <Styled.ChatContentContainer>
-        <Styled.ChatMessageListContainer ref={messageListRef}>
+      {showChats && (
+        <Styled.ChatMessagesContainer isPhone={isPhone}>
+          <ChatList
+            id="chat-list"
+            onClick={data => setChat(data.id as string)}
+            lazyLoadingImage=""
+            dataSource={dataSource}
+          />
+        </Styled.ChatMessagesContainer>
+      )}
+      {showChat && (
+        <Styled.ChatContentContainer>
+          <Styled.ChatMessageListContainer ref={messageListRef}>
+            {chat && (
+              <ChatMessageList
+                chat={chat}
+                user={user}
+                scrollToLastMessage={scrollToLastMessage}
+              />
+            )}
+          </Styled.ChatMessageListContainer>
           {chat && (
-            <ChatMessageList
-              chat={chat}
-              user={user}
-              scrollToLastMessage={scrollToLastMessage}
-            />
+            <ChatMessageInput chat={chat} user={user} onSend={sendMessage} />
           )}
-          {!chat && <div>Choose chat</div>}
-        </Styled.ChatMessageListContainer>
-        {chat && (
-          <ChatMessageInput chat={chat} user={user} onSend={sendMessage} />
-        )}
-      </Styled.ChatContentContainer>
+        </Styled.ChatContentContainer>
+      )}
     </ChatContainer>
   )
 }

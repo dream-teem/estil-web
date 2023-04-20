@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const ChatContentContainer = styled.div`
   flex: 1;
@@ -12,7 +12,7 @@ export const ChatMessageListContainer = styled.div`
   flex: 1;
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.1);
   height: 100%;
   overflow-y: auto;
 
@@ -33,14 +33,31 @@ export const ChatMessageListContainer = styled.div`
   }
 `
 
-export const ChatMessagesContainer = styled.div`
+type Props = {
+  isPhone: boolean
+}
+export const ChatMessagesContainer = styled.div<Props>`
   width: 300px;
   height: 100%;
   border-right: 1px solid rgba(0, 0, 0, 0.3);
 
+  ${({ isPhone }) =>
+    isPhone &&
+    css({
+      width: '100%',
+      borderRight: 'none'
+    })}
   .current-chat {
     .rce-citem {
       background: rgba(0, 0, 0, 0.1);
     }
   }
+`
+
+export const EmptyMessageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
 `

@@ -8,12 +8,14 @@ export const CHAT_API_REDUCER_KEY = 'chatApi'
 const chatApi = createApi({
   reducerPath: CHAT_API_REDUCER_KEY,
   baseQuery,
+  tagTypes: ['CHATS'],
   endpoints: builder => ({
     getChats: builder.query<UserChat[], null>({
       query: () => ({
         url: 'chats',
         method: 'GET'
-      })
+      }),
+      providesTags: [{ type: 'CHATS' }]
     }),
     getChat: builder.query<Chat, string>({
       query: chatId => ({
@@ -26,7 +28,8 @@ const chatApi = createApi({
         url: 'chats',
         method: 'POST',
         body
-      })
+      }),
+      invalidatesTags: [{ type: 'CHATS' }]
     }),
     getChatMessages: builder.query<ChatMessage[], string>({
       query: id => ({

@@ -11,7 +11,7 @@ import * as Styled from './styles'
 
 type Props = {
   open?: boolean
-  user: AuthUser
+  user: Omit<AuthUser, 'token'>
   onClose?: () => void
 }
 

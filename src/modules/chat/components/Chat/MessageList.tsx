@@ -4,6 +4,7 @@ import moment from 'moment'
 import React, { useEffect, useMemo } from 'react'
 import { MessageList } from 'react-chat-elements'
 import { Chat } from '../../types'
+import { EmptyMessageContainer } from './styles'
 
 type Props = {
   chat: Chat
@@ -46,7 +47,11 @@ export function ChatMessageList({ chat, user, scrollToLastMessage }: Props) {
   useEffect(() => {
     scrollToLastMessage()
   }, [dataSource])
+  const isEmpty = dataSource.length === 0
 
+  if (isEmpty) {
+    return <EmptyMessageContainer>Wow, such empty :3</EmptyMessageContainer>
+  }
   return (
     <MessageList
       // this is needed.

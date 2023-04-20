@@ -8,6 +8,7 @@ import { Title } from '@/components/Typography/Title'
 import { config } from '@/config'
 import { useAuth } from '@/hooks/useAuth'
 import { useOnClickOutside } from '@/hooks/useOnClickOutside'
+import { Mail } from '@styled-icons/ionicons-outline'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useRef, useState } from 'react'
@@ -48,6 +49,11 @@ function Header({ desktopHeader = true }: Props) {
         <Styled.WidgetsWrapper>
           <Styled.IconWrapper className="search-icon">
             <SearchIcon onClick={() => setSearchOpen(true)} />
+          </Styled.IconWrapper>
+          <Styled.IconWrapper className="message-icon">
+            <AuthWrapper onClick={() => router.push('/chat')}>
+              <Mail width={28} />
+            </AuthWrapper>
           </Styled.IconWrapper>
           <Styled.IconWrapper className="like-icon">
             <AuthWrapper onClick={() => router.push('/products/favorite')}>
