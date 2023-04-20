@@ -26,6 +26,7 @@ export const useChats = (user?: AuthUser, currentChatId?: string) => {
   useEffect(() => {
     socketRef.current = io(config.api.socket.baseUrl!, {
       autoConnect: true,
+      path: config.api.socket.path,
       query: {
         token: user?.token
       }

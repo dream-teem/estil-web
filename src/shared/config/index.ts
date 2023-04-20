@@ -4,7 +4,8 @@ export const config = {
       baseUrl: process.env.NEXT_PUBLIC_MAIN_API_URL
     },
     socket: {
-      baseUrl: process.env.NEXT_PUBLIC_SOCKET_URL
+      baseUrl: process.env.NEXT_PUBLIC_SOCKET_URL,
+      path: process.env.NEXT_PUBLIC_SOCKET_PATH
     },
     products: {
       baseUrl: process.env.NEXT_PUBLIC_PRODUCTS_API_URL
