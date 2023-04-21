@@ -46,14 +46,14 @@ const usersApi = createApi({
     }),
     getFollowers: builder.query<UserPreview[], string>({
       query: username => ({
-        url: `users/${username}/followers`,
+        url: `follows/${username}/followers`,
         method: 'GET'
       }),
       providesTags: () => [{ type: 'Followers', id: 'LIST' }]
     }),
     getFollowings: builder.query<UserPreview[], string>({
       query: username => ({
-        url: `users/${username}/followings`,
+        url: `follows/${username}/followings`,
         method: 'GET'
       }),
       providesTags: () => [{ type: 'Followings', id: 'LIST' }]
@@ -79,11 +79,8 @@ const usersApi = createApi({
     }),
     toggleFollow: builder.mutation<ToggleFollowResponse, ToggleFollowRequest>({
       query: user => ({
-        url: 'followings/toggle',
-        method: 'POST',
-        body: {
-          userIds: [user.id]
-        }
+        url: 'follows/user/' + user.id,
+        method: 'PATCH'
       }),
       invalidatesTags: () => [{ type: 'Followings', id: 'LIST' }],
       async onQueryStarted({ username }, { dispatch, queryFulfilled }) {
